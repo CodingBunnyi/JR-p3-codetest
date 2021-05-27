@@ -1,31 +1,14 @@
 import java.util.HashMap;
 public class BundleTable {
-    private String bundleType;
-    private Integer bundleNum;
-    private Integer bundlePrice;
     private HashMap<String, HashMap<Integer, Double>> tableMap;
     private static BundleTable bundleTable = new BundleTable();
-//    private HashMap<Integer, Integer> bundleMap;
 
     private BundleTable() {
-//        this.bundleType = bundleType;
-//        this.bundleNum = bundleNum;
-//        this.bundlePrice = bundlePrice;
         this.tableMap = new HashMap<>();
-//        this.bundleMap = new HashMap<>();
     }
 
     public static BundleTable getInstance(){
         return bundleTable;
-    }
-
-
-    public String getInputType(String inputType) {
-        if (typeIsExist(inputType)) {
-            return inputType;
-        } else {
-            return null;
-        }
     }
 
     public boolean typeIsExist(String inputType) {
