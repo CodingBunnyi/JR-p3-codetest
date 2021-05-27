@@ -3,7 +3,7 @@ public class BundleTable {
     private String bundleType;
     private Integer bundleNum;
     private Integer bundlePrice;
-    private HashMap<String, HashMap<Integer, Integer>> tableMap;
+    private HashMap<String, HashMap<Integer, Double>> tableMap;
 //    private HashMap<Integer, Integer> bundleMap;
 
     public BundleTable() {
@@ -30,11 +30,11 @@ public class BundleTable {
         }
     }
 
-    public HashMap<Integer, Integer> getBundleMapByType (String inputType) {
+    public HashMap<Integer, Double> getBundleMapByType (String inputType) {
         return this.tableMap.get(inputType);
     }
-    public void setBundleRecord (String setType, Integer setNum, Integer setPrice) {
-        HashMap<Integer,Integer> bundleMapRecord = new HashMap<>();
+    public void setBundleRecord (String setType, Integer setNum, Double setPrice) {
+        HashMap<Integer,Double> bundleMapRecord = new HashMap<>();
 
         if (!this.typeIsExist(setType)) {
             bundleMapRecord.put(setNum,setPrice);
