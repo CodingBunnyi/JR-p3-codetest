@@ -2,6 +2,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BundleCalculator {
 private Order order;
@@ -32,38 +33,21 @@ private HashMap<Integer, Integer> bundleMethod;
             int inputNum = orderMap.get(inputType);
             if(bundleTable.typeIsExist(inputType)) {
 
-                calculateBundle(inputNum, bundleSet);
+                calculateBundle(inputNum, bundleSet);//{5 = 0 ; 10 =1}
 
                 System.out.println(this.bundleMethod);
             }
         }
     }
 
-//    public HashMap<Integer,Integer> calculateBundle (Integer current, Set<Integer> bundleSetNumByType) {
-//        int max = Collections.max(bundleSetNumByType);
-//        int bundleNum = current/max;
-//        if (bundleNum != 0) {
-//            this.bundleMethod.put(max,bundleNum);
-//            bundleSetNumByType.remove(max);
-//            current = current % max;
-//            calculateBundle(current,bundleSetNumByType);
-//        } else {
-//            int remain = current % max;
-//            if (!bundleSetNumByType.isEmpty()){
-//                int min = Collections.min(bundleSetNumByType);
-//                if(remain != 0) {
-//                    if (remain < min) {
-//                        int previous = 0;
-//                        previous = this.bundleMethod.get(min);
-//                        this.bundleMethod.put(Collections.min(bundleSetNumByType),previous + 1);
-//                    } else {
-//                        calculateBundle(remain, bundleSetNumByType);
-//                    }
-//                }
-//            }
-//        }
-//        return this.bundleMethod;
-//    }
+    public double calculateTotalByType(String inputType, HashMap<Integer,Integer> bundleMethod) {
+        List<Double> container = new ArrayList<>();
+        bundleMethod.forEach((k,v)->
+            container.add(v * this.bundleTable.getBundleMapByType(inputType).get(k))
+        );
+        return container.stream().mapToDouble(i -> i).sum();
+    }
+
 
     public HashMap<Integer,Integer> calculateBundle (Integer current, Set<Integer> bundleSetNumByType) {
         List<Integer> bundleList = new ArrayList<>(bundleSetNumByType);
@@ -110,7 +94,7 @@ private HashMap<Integer, Integer> bundleMethod;
             bundleTable.setBundleRecord("VID",9,1530.0);
 
 //
-//            Set<Integer> bundleSet  = bundleTable.getBundleMapByType("FLAC").keySet();
+            Set<Integer> bundleSet  = bundleTable.getBundleMapByType("IMG").keySet();
 //
 //
 //            System.out.println(bundleTable.getBundleMapByType("FLAC"));
@@ -125,14 +109,15 @@ private HashMap<Integer, Integer> bundleMethod;
 
             BundleCalculator bundleCalculator = new BundleCalculator(order,bundleTable);
 //
-//            for (Integer key : bundleSet) {
-//                bundleCalculator.bundleMethod.put(key, 0);
-//            }
+            for (Integer key : bundleSet) {
+                bundleCalculator.bundleMethod.put(key, 0);
+            }
 
-//            bundleCalculator.calculateBundle(17,bundleSet);
+            HashMap bundle = bundleCalculator.calculateBundle(10,bundleSet);
 //            System.out.println(bundleCalculator.bundleMethod);
 
-            bundleCalculator.iterate(order);
+//            bundleCalculator.iterate(order);
+            System.out.println(bundleCalculator.calculateTotalByType("IMG",bundle));
 
 
 
