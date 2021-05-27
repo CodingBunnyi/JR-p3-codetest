@@ -21,10 +21,12 @@ private HashMap<Integer, Integer> bundleMethod;
 
     public void iterate(Order order) {
         HashMap<String, Integer> orderMap = order.getOrderMap();
+        double total;
 
         for (String inputType : orderMap.keySet()) {
             Set<Integer> bundleSet  = this.bundleTable.getBundleMapByType(inputType).keySet();
             HashMap<Integer,Integer> initialMap= new HashMap<>();
+            HashMap<Integer,Integer> bundleMethod;
             for (Integer key : bundleSet) {
                 initialMap.put(key, 0);
                 this.bundleMethod = initialMap;
@@ -32,17 +34,25 @@ private HashMap<Integer, Integer> bundleMethod;
 
             int inputNum = orderMap.get(inputType);
             if(bundleTable.typeIsExist(inputType)) {
+                bundleMethod = calculateBundle(inputNum, bundleSet); //{5 = 0 ; 10 =1}
+                total = calculateTotalByType(inputType,bundleMethod);
 
-                calculateBundle(inputNum, bundleSet);//{5 = 0 ; 10 =1}
+                System.out.println(inputNum + " " + inputType + " " + total);
 
-                System.out.println(this.bundleMethod);
+                bundleMethod.forEach((k,v) -> {
+                    if (v != 0) {
+                        double price = this.bundleTable.getBundleMapByType(inputType).get(k);
+                        double indiTotal = price * v;
+                        System.out.println(v + " * " + k + " " + indiTotal);
+                    }
+                });
             }
         }
     }
 
     public double calculateTotalByType(String inputType, HashMap<Integer,Integer> bundleMethod) {
         List<Double> container = new ArrayList<>();
-        bundleMethod.forEach((k,v)->
+        bundleMethod.forEach((k,v) ->
             container.add(v * this.bundleTable.getBundleMapByType(inputType).get(k))
         );
         return container.stream().mapToDouble(i -> i).sum();
@@ -94,7 +104,7 @@ private HashMap<Integer, Integer> bundleMethod;
             bundleTable.setBundleRecord("VID",9,1530.0);
 
 //
-            Set<Integer> bundleSet  = bundleTable.getBundleMapByType("IMG").keySet();
+//            Set<Integer> bundleSet  = bundleTable.getBundleMapByType("IMG").keySet();
 //
 //
 //            System.out.println(bundleTable.getBundleMapByType("FLAC"));
@@ -109,15 +119,15 @@ private HashMap<Integer, Integer> bundleMethod;
 
             BundleCalculator bundleCalculator = new BundleCalculator(order,bundleTable);
 //
-            for (Integer key : bundleSet) {
-                bundleCalculator.bundleMethod.put(key, 0);
-            }
-
-            HashMap bundle = bundleCalculator.calculateBundle(10,bundleSet);
+//            for (Integer key : bundleSet) {
+//                bundleCalculator.bundleMethod.put(key, 0);
+//            }
+//
+//            HashMap bundle = bundleCalculator.calculateBundle(10,bundleSet);
 //            System.out.println(bundleCalculator.bundleMethod);
 
-//            bundleCalculator.iterate(order);
-            System.out.println(bundleCalculator.calculateTotalByType("IMG",bundle));
+            bundleCalculator.iterate(order);
+//            System.out.println(bundleCalculator.calculateTotalByType("IMG",bundle));
 
 
 
