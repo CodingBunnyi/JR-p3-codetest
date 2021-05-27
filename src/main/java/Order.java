@@ -6,8 +6,14 @@ import java.util.HashMap;
 public class Order {
     private HashMap<String, Integer> orderMap;
 
-    public Order() {
+    private static Order order = new Order();
+
+    private Order() {
         this.orderMap = new HashMap<>();
+    }
+
+    public static Order getInstance(){
+        return order;
     }
 
     public HashMap<String, Integer> getOrderMap() {
@@ -37,8 +43,5 @@ public class Order {
         this.orderMap = orderMap;
     }
 
-    public int getNumByType(String orderType) {
-        return this.orderMap.get(orderType);
-    }
 
 }
