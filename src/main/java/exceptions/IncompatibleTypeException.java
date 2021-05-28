@@ -1,4 +1,4 @@
 package exceptions;
 
-public class IncompatibleTypeException extends NullPointerException{
+public class IncompatibleTypeException extends RuntimeException{
 }
