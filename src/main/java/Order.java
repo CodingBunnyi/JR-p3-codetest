@@ -1,3 +1,4 @@
+import exceptions.FormatException;
 import exceptions.IncompatibleTypeException;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,16 +27,35 @@ public class Order {
         return order;
     }
 
+    public void orderFormatIsTrue (String[] orderByType) {
+        if (orderByType.length !=2) {
+            throw new FormatException();
+        }
+    }
+
     public HashMap<String, Integer> readOrder(FileReader fr) {
         BufferedReader br = new BufferedReader(fr);
         HashMap<String, Integer> orderMap = new HashMap<>();
 
         String line;
+        int lineNum = 0;
         try {
-            while((line = br.readLine()) != null && !line.equals("")) {
+            while((line = br.readLine()) != null) {
+                int orderNum;
+                lineNum += 1;
                 String[] orderByType = line.split(" ");
-
-                int orderNum = Integer.parseInt(orderByType[0]);
+                try {
+                    orderFormatIsTrue(orderByType);
+                } catch (FormatException formatException) {
+                    logger.error("The format in the line " + lineNum + " is wrong");
+                    continue;
+                }
+                try {
+                    orderNum = Integer.parseInt(orderByType[0]);
+                } catch (NumberFormatException numberFormatException) {
+                    logger.error("The format in the line " + lineNum + " is wrong");
+                    continue;
+                }
                 String orderType = orderByType[1];
                 try {
                     if (BundleTable.getInstance().typeIsExist(orderType)) {
@@ -48,7 +68,6 @@ public class Order {
         } catch (IOException ioException) {
             System.out.println("Something went wrong");
         }
-
         return orderMap;
     }
 

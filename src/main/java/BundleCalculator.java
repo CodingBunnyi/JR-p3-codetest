@@ -1,16 +1,12 @@
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
 @Getter
 @Setter
 public class BundleCalculator {
-
     private static BundleCalculator bundleCalculator = new BundleCalculator();
-    private static final Logger logger = LogManager.getLogger(BundleCalculator.class);
 
     private BundleCalculator() {
     }
@@ -20,12 +16,6 @@ public class BundleCalculator {
     }
 
     public double calculateTotalByType(String inputType, HashMap<Integer, Integer> bundleMethod) {
-//        try {
-//            BundleTable.getInstance().typeIsExist(inputType);
-//        } catch (IncompatibleTypeException unmatchTypeExcetion) {
-//            logger.error("bundle table does not contain social media type" + inputType);
-//        }
-
         List<Double> container = new ArrayList<>();
         bundleMethod.forEach((k,v) ->
             container.add(v * BundleTable.getInstance().getBundleMapByType(inputType).get(k))

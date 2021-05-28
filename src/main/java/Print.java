@@ -1,4 +1,3 @@
-import exceptions.IncompatibleTypeException;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -21,13 +20,6 @@ public class Print {
     }
 
     public void printEach(Integer inputNum, String inputType, Set<Integer> bundleSet) {
-        try {
-            BundleTable.getInstance().typeIsExist(inputType);
-        } catch (IncompatibleTypeException incompatibleTypeException) {
-            logger.error("bundle table does not contain social media type" + inputType);
-
-        }
-
         HashMap<Integer, Integer> bundleMethod = BundleCalculator.getInstance().calculateBundle(inputNum, bundleSet);
         double total = BundleCalculator.getInstance().calculateTotalByType(inputType, bundleMethod);
 
@@ -44,9 +36,7 @@ public class Print {
 
     public void printAll(Order order) {
         HashMap<String, Integer> orderMap = order.getOrderMap();
-
-
-            orderMap.keySet().forEach(inputType -> {
+        orderMap.keySet().forEach(inputType -> {
             Set<Integer> bundleSet  = BundleTable.getInstance().getBundleMapByType(inputType).keySet();
 
             int inputNum = orderMap.get(inputType);
@@ -54,7 +44,5 @@ public class Print {
                 printEach(inputNum, inputType, bundleSet);
             }
         });
-
-
     }
 }
