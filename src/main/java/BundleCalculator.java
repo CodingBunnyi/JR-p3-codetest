@@ -1,12 +1,15 @@
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
+@Getter
+@Setter
 public class BundleCalculator {
 
     private static BundleCalculator bundleCalculator = new BundleCalculator();
 
-
     private BundleCalculator() {
-
     }
 
     public static BundleCalculator getInstance(){

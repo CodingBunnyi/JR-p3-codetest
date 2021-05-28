@@ -1,9 +1,15 @@
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
+@Getter
+@Setter
 public class Order {
+
     private HashMap<String, Integer> orderMap;
 
     private static Order order = new Order();
@@ -16,11 +22,7 @@ public class Order {
         return order;
     }
 
-    public HashMap<String, Integer> getOrderMap() {
-        return this.orderMap;
-    }
-
-    public static HashMap<String, Integer> readOrder(FileReader fr) {
+    public HashMap<String, Integer> readOrder(FileReader fr) {
         BufferedReader br = new BufferedReader(fr);
         HashMap<String, Integer> orderMap = new HashMap<>();
 

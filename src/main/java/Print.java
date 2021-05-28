@@ -1,6 +1,11 @@
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashMap;
 import java.util.Set;
 
+@Getter
+@Setter
 public class Print {
     private static Print print = new Print();
 
