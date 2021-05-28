@@ -1,5 +1,8 @@
+import exceptions.IncompatibleTypeException;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,6 +17,7 @@ import java.util.List;
 public class BundleTable {
     private HashMap<String, HashMap<Integer, Double>> tableMap;
     private static BundleTable bundleTable = new BundleTable();
+    private static final Logger logger = LogManager.getLogger(BundleTable.class);
 
     private BundleTable() {
         this.tableMap = new HashMap<>();
@@ -24,11 +28,10 @@ public class BundleTable {
     }
 
     public boolean typeIsExist(String inputType) {
-        if (this.tableMap.containsKey(inputType)) {
-            return true;
-        } else {
-            return false;
+        if (!this.tableMap.containsKey(inputType)) {
+            throw new IncompatibleTypeException();
         }
+        return true;
     }
 
     public HashMap<Integer, Double> getBundleMapByType (String inputType) {
@@ -42,18 +45,17 @@ public class BundleTable {
         String line;
         try {
             while((line = br.readLine()) != null) {
-                String[] lineString = line.split(" ");
-                List<String> lineList = Arrays.asList(lineString);
-                List<String> lineArrayList = new ArrayList<>(lineList);
+                List<String> lineArrayList = new ArrayList<>(Arrays.asList(line.split(" ")));
                 String bundleType = lineArrayList.get(0);
                 lineArrayList.remove(0);
                 HashMap<Integer, Double> bundleMapByType = new HashMap<>();
-                for(String bundleMapItem:lineArrayList) {
+
+                lineArrayList.forEach(bundleMapItem -> {
                     String[] item = bundleMapItem.split(":");
-                    Integer key = Integer.parseInt(item[0]);
+                    int key = Integer.parseInt(item[0]);
                     double value = Double.parseDouble(item[1]);
                     bundleMapByType.put(key,value);
-                }
+                });
                 bundleMap.put(bundleType,bundleMapByType);
             }
         } catch (IOException ioException) {
