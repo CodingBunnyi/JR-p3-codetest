@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,7 +19,6 @@ public class Order {
     private static Order order = new Order();
 
     private Order() {
-
     }
 
     public static Order getInstance(){
@@ -73,10 +71,7 @@ public class Order {
         }
         return orderMap;
     }
-
     public void saveOrder(HashMap<String, Integer> orderMap) {
         this.orderMap = orderMap;
     }
-
-
 }

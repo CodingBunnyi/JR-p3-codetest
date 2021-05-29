@@ -4,10 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,7 +25,6 @@ public class BundleTableTest {
         Assertions.assertThrows(IncompatibleTypeException.class, () -> {
             BundleTable.getInstance().typeIsExist("ABC");
         });
-
         assertTrue(BundleTable.getInstance().typeIsExist("IMG"));
     }
 

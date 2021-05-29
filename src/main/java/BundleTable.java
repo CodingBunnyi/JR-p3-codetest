@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -55,7 +54,6 @@ public class BundleTable {
         });
     }
 
-
     public HashMap<Integer, Double> getBundleMapByType (String inputType) {
         return this.tableMap.get(inputType);
     }
@@ -97,5 +95,4 @@ public class BundleTable {
     public void setBundleTable(HashMap<String, HashMap<Integer, Double>> tableMap) {
         this.tableMap = tableMap;
     }
-
 }

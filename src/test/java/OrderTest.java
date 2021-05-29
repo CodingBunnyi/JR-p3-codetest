@@ -3,14 +3,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 public class OrderTest {
     private static final Logger logger = LogManager.getLogger(OrderTest.class);
@@ -75,6 +73,5 @@ public class OrderTest {
         } catch (IOException IOException) {
             logger.error("Error closing file");
         }
-
     }
 }

@@ -1,11 +1,11 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.HashMap;
 
 public class BundleCalculatorTest {
-    @Test
-    public void calculateTotalByTypeTest() {
+    @BeforeAll
+    public static void setUp() {
         HashMap<String, HashMap<Integer, Double>> tableMap = new HashMap<>();
         HashMap<Integer, Double> bundleMapIMG = new HashMap<>();
         bundleMapIMG.put(5,450.0);
@@ -25,11 +25,13 @@ public class BundleCalculatorTest {
         tableMap.put("VID",bundleMapVID);
 
         BundleTable.getInstance().setBundleTable(tableMap);
+    }
 
+    @Test
+    public void calculateTotalByTypeTest() {
         HashMap<Integer, Integer> bundleMethodFLAC = new HashMap<>();
         bundleMethodFLAC.put(6,1);
         bundleMethodFLAC.put(9,1);
-
         assertEquals(1957.5,BundleCalculator.getInstance().calculateTotalByType("FLAC",bundleMethodFLAC));
     }
 
