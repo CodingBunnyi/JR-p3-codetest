@@ -27,8 +27,14 @@ public class Order {
         return order;
     }
 
-    public void orderFormatIsTrue (String[] orderByType) {
+    public void checkOrderFormat (String[] orderByType) {
         if (orderByType.length !=2) {
+            throw new FormatException();
+        }
+
+        try {
+            Integer.parseInt(orderByType[0]);
+        } catch (NumberFormatException numberFormatException) {
             throw new FormatException();
         }
     }
@@ -44,25 +50,22 @@ public class Order {
                 int orderNum;
                 lineNum += 1;
                 String[] orderByType = line.split(" ");
+
                 try {
-                    orderFormatIsTrue(orderByType);
-                } catch (FormatException formatException) {
-                    logger.error("The format in the line " + lineNum + " is wrong");
-                    continue;
-                }
-                try {
+                    checkOrderFormat(orderByType);
                     orderNum = Integer.parseInt(orderByType[0]);
-                } catch (NumberFormatException numberFormatException) {
-                    logger.error("The format in the line " + lineNum + " is wrong");
+                } catch (FormatException formatException) {
+                    logger.error("The format in the line " + lineNum + " of the order is wrong");
                     continue;
                 }
+
                 String orderType = orderByType[1];
                 try {
                     if (BundleTable.getInstance().typeIsExist(orderType)) {
                         orderMap.put(orderType, orderNum);
                     }
                 } catch (IncompatibleTypeException incompatibleTypeException) {
-                    logger.error("bundle table does not contain social media type" + orderType);
+                    logger.error("bundle table does not contain social media type " + orderType);
                 }
             }
         } catch (IOException ioException) {
