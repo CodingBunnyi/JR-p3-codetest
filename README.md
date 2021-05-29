@@ -29,7 +29,8 @@ An example `order.txt`:
 ***`order.txt` format (for each line)***:
 
 `Integer`(the number of product need to purchase) + `Product Code`.
-hint: each element should be separated by *ONLY ONE* space!! The application *will not* calculate the line with wrong format!!
+
+Hint: each element should be separated by *ONLY ONE* space!! The application *will not* calculate the line with wrong format!!
 
 **`bundleTableConfig.txt`** is the bundles configuration that product sold.
 
@@ -54,7 +55,7 @@ VID 3:570 5:900 9:1530
 
 `Product Code` + `bunle number:bundle price` + `bunle number:bundle price` + ...
 
-hint: each element should be separated by *ONLY ONE* space!! The application will not config the line with wrong format!!
+Hint: each element should be separated by *ONLY ONE* space!! The application will not config the line with wrong format!!
 
 ### Step 2:
 ### Run `BundleCalculateApp.java` in the `src/main/java`.
