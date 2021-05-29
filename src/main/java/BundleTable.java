@@ -94,8 +94,8 @@ public class BundleTable {
         return bundleMap;
     }
 
-    public void setBundleTable(HashMap<String, HashMap<Integer, Double>> bundleMap) {
-        this.tableMap = bundleMap;
+    public void setBundleTable(HashMap<String, HashMap<Integer, Double>> tableMap) {
+        this.tableMap = tableMap;
     }
 
 }

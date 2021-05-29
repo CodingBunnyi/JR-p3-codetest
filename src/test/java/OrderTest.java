@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class OrderTest {
-    private HashMap<String, Integer> orderMap;
-    private static final Logger logger = LogManager.getLogger(BundleCalculateApp.class);
+    private static final Logger logger = LogManager.getLogger(OrderTest.class);
 
     @Test
     public void checkOrderFormatTest(){
