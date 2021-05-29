@@ -12,19 +12,13 @@ public class BundleCalculateApp {
             FileReader bundleTableConfig = new FileReader("src/main/resources/bundleTableConfig");
             BundleTable.getInstance().setBundleTable(BundleTable.getInstance().readTableConfig(bundleTableConfig));
             bundleTableConfig.close();
-        } catch (FileNotFoundException fileNotFoundException) {
-            logger.error("Can not find bundleTableConfig file");
-        } catch (IOException IOException) {
-            logger.error("Error closing file");
-        }
 
-        try {
             FileReader order = new FileReader("src/main/resources/order");
             Order.getInstance().saveOrder(Order.getInstance().readOrder(order));
             Print.getInstance().printAll(Order.getInstance());
             order.close();
         } catch (FileNotFoundException fileNotFoundException) {
-            logger.error("Can not find order file");
+            logger.error("Can not find order or bundleTableConfig file");
         } catch (IOException IOException) {
             logger.error("Error closing file");
         }

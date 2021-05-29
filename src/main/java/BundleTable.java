@@ -53,9 +53,7 @@ public class BundleTable {
                 throw new FormatException();
             }
         });
-
     }
-
 
 
     public HashMap<Integer, Double> getBundleMapByType (String inputType) {

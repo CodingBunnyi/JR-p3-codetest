@@ -20,14 +20,14 @@ public class Order {
     private static Order order = new Order();
 
     private Order() {
-        this.orderMap = new HashMap<>();
+
     }
 
     public static Order getInstance(){
         return order;
     }
 
-    public void checkOrderFormat (String[] orderByType) {
+    public void checkOrderFormat (String[] orderByType) throws FormatException{
         if (orderByType.length !=2) {
             throw new FormatException();
         }
