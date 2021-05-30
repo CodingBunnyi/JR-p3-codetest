@@ -9,27 +9,25 @@ import java.util.Set;
 @Getter
 @Setter
 public class Print {
-    private static Print print = new Print();
     private static final Logger logger = LogManager.getLogger(Print.class);
 
-    private Print () {
-    }
+    private BundleCalculator bundleCalculator;
 
-    public static Print getInstance(){
-        return print;
+    public Print(BundleCalculator bundleCalculator) {
+        this.bundleCalculator = bundleCalculator;
     }
 
     public void printEach(Integer inputNum, String inputType, Set<Integer> bundleSet) {
-        HashMap<Integer, Integer> bundleMethod = BundleCalculator.getInstance().calculateBundle(inputNum, bundleSet);
-        double total = BundleCalculator.getInstance().calculateTotalByType(inputType, bundleMethod);
+        HashMap<Integer, Integer> bundleMethod = this.bundleCalculator.calculateBundle(inputNum, bundleSet);
+        double total = this.bundleCalculator.calculateTotalByType(inputType, bundleMethod);
 
         System.out.println(inputNum + " " + inputType + " " + total);
 
-        bundleMethod.forEach((k,v) -> {
+        bundleMethod.forEach((k, v) -> {
             if (v != 0) {
-                double price = BundleTable.getInstance().getBundleMapByType(inputType).get(k);
+                double price = this.bundleCalculator.getOrder().getReferencedBundleTable().getBundleMapByType(inputType).get(k);
                 double individualTotal = price * v;
-                System.out.println("  "  + v + " * " + k + " " + individualTotal);
+                System.out.println("  " + v + " * " + k + " " + individualTotal);
             }
         });
     }
@@ -37,10 +35,10 @@ public class Print {
     public void printAll(Order order) {
         HashMap<String, Integer> orderMap = order.getOrderMap();
         orderMap.keySet().forEach(inputType -> {
-            Set<Integer> bundleSet  = BundleTable.getInstance().getBundleMapByType(inputType).keySet();
+            Set<Integer> bundleSet = bundleCalculator.getOrder().getReferencedBundleTable().getBundleMapByType(inputType).keySet();
 
             int inputNum = orderMap.get(inputType);
-            if(BundleTable.getInstance().typeIsExist(inputType)) {
+            if (bundleCalculator.getOrder().getReferencedBundleTable().typeIsExist(inputType)) {
                 printEach(inputNum, inputType, bundleSet);
             }
         });

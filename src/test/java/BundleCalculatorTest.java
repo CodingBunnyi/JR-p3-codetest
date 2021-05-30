@@ -1,38 +1,49 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class BundleCalculatorTest {
+    private static final Logger logger = LogManager.getLogger(PrintTest.class);
+    private static BundleTable bundleTable;
+    private static Order order;
+    private static BundleCalculator bundleCalculator;
+
     @BeforeAll
     public static void setUp() {
-        HashMap<String, HashMap<Integer, Double>> tableMap = new HashMap<>();
-        HashMap<Integer, Double> bundleMapIMG = new HashMap<>();
-        bundleMapIMG.put(5,450.0);
-        bundleMapIMG.put(10,800.0);
-        tableMap.put("IMG",bundleMapIMG);
+        try {
+            bundleTable = new BundleTable();
+            FileReader bundleTableConfig = new FileReader("src/main/resources/bundleTableConfig");
+            bundleTable.setBundleTable(bundleTable.readTableConfig(bundleTableConfig));
+            bundleTableConfig.close();
 
-        HashMap<Integer, Double> bundleMapFLAC = new HashMap<>();
-        bundleMapFLAC.put(3,427.5);
-        bundleMapFLAC.put(6,810.0);
-        bundleMapFLAC.put(9,1147.5);
-        tableMap.put("FLAC",bundleMapFLAC);
+            order = new Order(bundleTable);
+            FileReader orderInput = new FileReader("src/main/resources/order");
+            order.saveOrder(order.readOrder(orderInput));
+            orderInput.close();
 
-        HashMap<Integer, Double> bundleMapVID = new HashMap<>();
-        bundleMapVID.put(3,570.0);
-        bundleMapVID.put(5,900.0);
-        bundleMapVID.put(9,1530.0);
-        tableMap.put("VID",bundleMapVID);
+            bundleCalculator = new BundleCalculator(order);
 
-        BundleTable.getInstance().setBundleTable(tableMap);
+        } catch (FileNotFoundException fileNotFoundException) {
+            logger.error("Can not find order or bundleTableConfig file");
+        } catch (IOException IOException) {
+            logger.error("Error closing file");
+        }
     }
 
     @Test
     public void calculateTotalByTypeTest() {
         HashMap<Integer, Integer> bundleMethodFLAC = new HashMap<>();
-        bundleMethodFLAC.put(6,1);
-        bundleMethodFLAC.put(9,1);
-        assertEquals(1957.5,BundleCalculator.getInstance().calculateTotalByType("FLAC",bundleMethodFLAC));
+        bundleMethodFLAC.put(6, 1);
+        bundleMethodFLAC.put(9, 1);
+        assertEquals(1957.5, bundleCalculator.calculateTotalByType("FLAC", bundleMethodFLAC));
     }
 
     @Test

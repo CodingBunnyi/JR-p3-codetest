@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,18 +16,15 @@ public class Order {
     private static final Logger logger = LogManager.getLogger(Order.class);
 
     private HashMap<String, Integer> orderMap;
+    private BundleTable referencedBundleTable;
 
-    private static Order order = new Order();
-
-    private Order() {
+    public Order(BundleTable referencedBundleTable) {
+        this.referencedBundleTable = referencedBundleTable;
+        this.orderMap = new HashMap<>();
     }
 
-    public static Order getInstance(){
-        return order;
-    }
-
-    public void checkOrderFormat (String[] orderByType) throws FormatException{
-        if (orderByType.length !=2) {
+    public void checkOrderFormat(String[] orderByType) throws FormatException {
+        if (orderByType.length != 2) {
             throw new FormatException();
         }
 
@@ -44,7 +42,7 @@ public class Order {
         String line;
         int lineNum = 0;
         try {
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 int orderNum;
                 lineNum += 1;
                 String[] orderByType = line.split(" ");
@@ -59,7 +57,7 @@ public class Order {
 
                 String orderType = orderByType[1];
                 try {
-                    if (BundleTable.getInstance().typeIsExist(orderType)) {
+                    if (this.referencedBundleTable.typeIsExist(orderType)) {
                         orderMap.put(orderType, orderNum);
                     }
                 } catch (IncompatibleTypeException incompatibleTypeException) {
@@ -71,6 +69,7 @@ public class Order {
         }
         return orderMap;
     }
+
     public void saveOrder(HashMap<String, Integer> orderMap) {
         this.orderMap = orderMap;
     }
